@@ -61,6 +61,8 @@ class Player:
         self.xPos = xPos
         self.col = col
         self.score = 0
+        self.lastProjectile = None
+
     
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
     def fire(self, angle, velocity):
@@ -69,6 +71,7 @@ class Player:
             angle = 180 - angle
 
         proj = Projectile(angle,velocity,self.game.getCurrentWind(),self.xPos,0,-110,110)
+        self.lastProjectile = proj
         # The projectile should start in the middle of the cannon of the firing player
         # HINT: Your job here is to call the constructor of Projectile with all the right values
         # Some are hard-coded, like the boundaries for x-position, others can be found in Game or Player
@@ -76,12 +79,13 @@ class Player:
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
-        
+        return proj.getX()-self.getX()
+
         # HINT: both self (a Player) and proj (a Projectile) have getX()-methods.
         # HINT: This method should give a negative value if the projectile missed to the left and positive if it missed to the right.
         # The distance should be how far the projectile and cannon are from touching, not the distance between their centers.
         # You probably need to use getCannonSize and getBallSize from Game to compensate for the size of cannons/cannonballs
- 
+    
         return 0 #TODO: this is a dummy value.
 
     """ The current score of this player """
@@ -102,8 +106,7 @@ class Player:
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return 0, 0 #TODO: this is just a dummy value 
-
+        return self.lastProjectile.angle, self.lastProjectile.velocity
 
 
 """ Models a projectile (a cannonball, but could be used more generally) """
@@ -125,6 +128,9 @@ class Projectile:
         self.xvel = velocity*cos(theta)
         self.yvel = velocity*sin(theta)
         self.wind = wind
+
+        self.angle = angle
+        self.velocity = velocity
 
 
     """ 
