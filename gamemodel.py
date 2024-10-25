@@ -9,7 +9,7 @@ class Game:
         self.ballsize = ballSize
         self.players = [Player(self, False, -90, "blue"), Player(self, True, 90, "red")]
         self.currentPlayerNumber = 0
-        self.wind = 0
+        self.newRound()
 
     """ A list containing both players """
     def getPlayers(self):
@@ -60,6 +60,8 @@ class Player:
         self.col = col
         self.score = 0
         self.lastProjectile_angle= 45
+        if(isReversed==True):
+            self.lastProjectile_angle = 135
         self.lastProjectile_velocity = 40
 
     
@@ -93,37 +95,6 @@ class Player:
             return proj.getX() - (self.xPos - cannonSize/2 - ballSize)
         else:
             return proj.getX() - (self.xPos + cannonSize/2 + ballSize)
-        #print(x_1,x_2,size_1,size_2)
-
-        #print(x_1-(size_1/2),x_2-size_2/2)
-
-
-
-
-
-        #80
-        #10
-
-        #75
-        #85
-
-        #85
-        #10
-
-        #80
-        #90
-
-        #print(self.getX()-self.game.getCannonSize()/2,"-",self.getX()+self.game.getCannonSize()/2,"X")
-        #print(proj.getX()-self.game.getBallSize()/2,"-",proj.getX()+self.game.getBallSize()/2,"X,proj")
-        #if((self.getX()-self.game.getCannonSize()/2)>=(proj.getX()+self.game.getBallSize()/2) and (self.getX()+self.game.getCannonSize()/2)<=(proj.getX()-self.game.getBallSize()/2)):
-        #    return 0
-
-
-#game 80 100 (90)
-#proj 50 90  (70)
-
-        return proj.getX()-self.getX()
-
         # HINT: both self (a Player) and proj (a Projectile) have getX()-methods.
         # HINT: This method should give a negative value if the projectile missed to the left and positive if it missed to the right.
         # The distance should be how far the projectile and cannon are from touching, not the distance between their centers.
@@ -148,7 +119,11 @@ class Player:
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return self.lastProjectile_angle,self.lastProjectile_velocity
+
+        last_aim = self.lastProjectile_angle
+        if(self.isReversed):
+            last_aim = -(last_aim-180)
+        return last_aim,self.lastProjectile_velocity
 
 
 """ Models a projectile (a cannonball, but could be used more generally) """
