@@ -82,7 +82,6 @@ class Player:
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
-        print(self.game.getCannonSize(),self.game.getCannonSize())
 
         ballSize = self.game.getBallSize()
         cannonSize = self.game.getCannonSize()
