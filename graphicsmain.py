@@ -37,7 +37,6 @@ class GameGraphics:
         circle_X = proj.getX()
         circle_Y = proj.getY()
 
-        #Better solutions probably exist for this, if(player.circle is not none) dosen't work
         if(self.draw_projs[self.game.currentPlayerNumber] is not None):
             self.draw_projs[self.game.currentPlayerNumber].undraw()
             
@@ -60,8 +59,9 @@ class GameGraphics:
         return proj
 
     def updateScore(self,playerNr):
-        self.draw_scores[playerNr].undraw()
-        self.drawScore(playerNr)
+        if(self.draw_scores[playerNr] is not None):
+            self.draw_scores[playerNr].undraw()
+        self.draw_scores[playerNr] = self.drawScore(playerNr)
 
     def play(self):
         while True:
